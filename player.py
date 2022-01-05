@@ -14,7 +14,7 @@ class Player():
         kt: King tower
         cardLevel: Represents the card level
         skill: Optional parameter that represents the skill, as skill affects who wins the match
-        partyPct: Percentage that a player plays 2v2.  Reflected in them not being added to the queue as often
+        partyPct: Percentage that a player plays 2v2.  Reflected in the player not being added to the queue as often
     Methods:
         playMatch
         winsMatch
@@ -195,12 +195,13 @@ def chanceOfOverlvl(lvlDiff):
     """Returns the chance of the over leveled player winning if the level difference is "lvlDiff"."""
     return 0.0186*lvlDiff + 0.521 
 
-def changeOfMoreSkill(skillDiff):
+def changeOfMoreSkill(skillDiff): 
+    """Returns the chance of the higher skill player winning with skill difference skillDiff."""
     return 0.5 + skillDiff/2.5
 
 
 def createRealPlayers(kingLvl, id= 0,trophies = 5000, wins = 0, losses = 0, skill = None, pp = 0):
-    """Creates player with more "real" card levels.  """
+    """Creates player with card levels more like what is actually observed on ladder """
     if kingLvl == 8:
         cardLevel = int(random.gauss(70, 3.5))
     elif kingLvl == 9:

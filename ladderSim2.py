@@ -554,35 +554,28 @@ def test(initialArr, matchesPerSzn, filename, mode = None, CLrule = 100, CLcutof
     #plots(data, filename)
     return data    
 
-q = pl.Player(trophies = 5500, cardLevel = 90) 
-w = pl.Player(trophies = 5200, cardLevel = 75) 
-e = pl.Player(trophies = 5115, cardLevel = 70)
-r = pl.Player(trophies = 6670, cardLevel = 90)
-t = pl.Player(trophies = 7050, cardLevel = 110) 
-y = pl.Player(trophies = 6100, cardLevel = 100)
-
 def finalSimulation():
     """Uses the result of 70 million battles to play out the most fair matchmaking rules for numSeason seasons.
     Rules: No KTmm, No CLmm, Trophy caps are [5300, 5600, 6000, 6300, 6600, 7000]. 
-    Then plays 16 million per season for 12 seasons"""
+    Plays 16 million battles per season for 12 seasons"""
     kingTowers = []
     playerL = []
-    while len(kingTowers) < 500:  #initialize king towers
+    while len(kingTowers) < 100000:  #initialize king towers
         kt = round(random.gauss(11, 1.5))
         if kt in range(8, 15):
              kingTowers += [kt]
         else:
              pass
-    for i in range(500): #establish player array
+    for i in range(100000): #establish player array
         kt = kingTowers[i]
         newP = pl.createRealPlayers(kingLvl = kt,id = i, skill = random.gauss(0.5, 0.16667), pp = random.gauss(0.2, 0.15))
         playerL += [newP]
     playerArr = np.asarray(playerL)
     queue = np.asarray([random.choice(playerArr)], dtype = object)
     matchesPlayed = 0
-    for season in range(6):
-        while matchesPlayed < 25000:
-            if matchesPlayed %(25000//5) == 0:
+    for season in range(1,13):
+        while matchesPlayed < 16000000:
+            if matchesPlayed %(2400000) == 0:
                 print(matchesPlayed)
             if queue.size == 0:
                 queue = np.append(queue, random.choice(playerArr))
