@@ -156,7 +156,12 @@ def KTsim(playerArr, numMatches, KTdiff = 1, KTcutoff = 6000, gatesList = [5000]
     return playerArr
 
 def trophyCapSim(playerArr, numMatches, capList):
-    """Simulates the ladder when all matches are capped by the trophy range at which the match occurs. No King Tower, No Card Level mm"""
+    """Simulates the ladder when all matches are capped by the trophy range at which the match occurs. No King Tower, No Card Level mm
+    Args:
+    playerArr:  Array of player Objects
+    numMatches: int-Number of matches to play.  
+    capList:  List of 6 integers representing where card levels are capped. 
+    [5300, 5600, 6000, 6300, 6600, 7000] means matches below 5300 are capped at 64 levels, below 5600 is capped at 72 lvls and so on"""
     queue = np.asarray([random.choice(playerArr)], dtype = object)
     matchesPlayed = 0
     while matchesPlayed < numMatches:
@@ -209,15 +214,6 @@ def capByTrophies(playerArr, caps):
     return originalLvls
 
 
-
-def capByKt(data):
-    """Returns a player object array with all players card level capped at their king tower
-    Args: data- Player object array"""
-    for p in data:
-        if p.cardLevel > 8*p.kt: #cap by King tower
-            p.cardLevel = 8*p.kt
-    return data
-
 def addToQueue(qDict,player):
     """adds the player to the correct queue in the qDict"""
     key = str(int(player.kt))
@@ -241,7 +237,7 @@ def remFromQueue(qDict, player):
 
 def findOpponent(qDict, p, ktDiff, ktCutoff):
     """Finds an opponent if p.trophies is under the KT threshold. 
-    Only call this if ktCutoffRule(p) == False 
+    Only called this if ktCutoffRule(p) == False 
     ktDiff >=0 """
     key = int(p.kt) #ensure int, not float
     orderToCheck = [str(key)]
@@ -495,6 +491,7 @@ def addToCQ(qDict, player):
     return qDict
 
 def remFromCQ(qDict, player):
+    """Removes a player from a card level based queue"""
     key = str(int(player.cardLevel))
     q = qDict[key]
     delPos = np.searchsorted(q, player)
